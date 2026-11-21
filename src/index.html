@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f5f7fc" />
+    <meta name="description" content="Timeline — личная лента текстовых, голосовых и видеозаметок с координатами." />
+    <title>Timeline — моменты на карте</title>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-symbol" aria-hidden="true"><img id="brand-logo" alt="" /></div>
+          <div><div class="brand-name">timeline<span>.</span></div><div class="brand-caption">Твоя история моментов</div></div>
+        </div>
+
+        <div class="sidebar-nav-label">ПРОСТРАНСТВО</div>
+        <div class="nav-item active" aria-current="page">
+          <span class="nav-icon" aria-hidden="true">◫</span>
+          <span>Моя лента</span>
+          <span class="nav-count" id="nav-count">0</span>
+        </div>
+        <div class="sidebar-nav-label lower">МОИ ЗАПИСИ</div>
+        <div class="type-filter" id="type-filter" role="group" aria-label="Фильтр записей">
+          <button class="filter-item selected" data-filter="all" type="button"><span class="mini-dot all-dot"></span>Все записи <span class="filter-num" id="filter-all">0</span></button>
+          <button class="filter-item" data-filter="text" type="button"><span class="mini-dot text-dot"></span>Текст <span class="filter-num" id="filter-text">0</span></button>
+          <button class="filter-item" data-filter="audio" type="button"><span class="mini-dot audio-dot"></span>Аудио <span class="filter-num" id="filter-audio">0</span></button>
+          <button class="filter-item" data-filter="video" type="button"><span class="mini-dot video-dot"></span>Видео <span class="filter-num" id="filter-video">0</span></button>
+        </div>
+        <div class="side-bottom">
+          <div class="privacy-card">
+            <span class="privacy-icon" aria-hidden="true">✦</span>
+            <div><strong>Только для тебя</strong><p>Все записи живут в памяти этой вкладки. Без сервера и регистрации.</p></div>
+          </div>
+          <div class="small-footer">TIMELINE · НEТОЛОГИЯ · AHJ</div>
+        </div>
+      </aside>
+
+      <main class="workspace">
+        <header class="topbar">
+          <div class="breadcrumb"><span>Пространство</span><span class="crumb-sep">/</span><strong>Моя лента</strong></div>
+          <div class="top-right"><span class="live-pill"><span class="live-point"></span>Локальный режим</span><span class="avatar" aria-hidden="true">Я</span></div>
+        </header>
+
+        <div class="main-layout">
+          <section class="timeline-column" aria-label="Лента записей">
+            <div class="page-hero">
+              <div class="eyebrow"><span class="eyebrow-line"></span>ВАША ЛИЧНАЯ ХРОНИКА</div>
+              <h1>Моменты, которые <em>важны.</em></h1>
+              <p>Сохраняйте мысли, голоса и видео вместе с местом, где они случились.</p>
+              <div class="hero-pills"><span class="hero-pill">✧ Записывай</span><span class="hero-pill">⌖ Сохраняй место</span><span class="hero-pill">◷ Вспоминай</span></div>
+            </div>
+
+            <div class="feed-head"><div><h2>Моя лента <span class="feed-count" id="feed-count">0</span></h2><p id="feed-subtitle">Всё, что хочется запомнить</p></div><span class="sort-label">↓ Сначала новые</span></div>
+            <div class="feed" id="feed" aria-live="polite"></div>
+
+            <div class="composer-wrapper" id="composer-wrapper">
+              <form class="composer" id="post-form">
+                <div class="composer-user" aria-hidden="true">Я</div>
+                <div class="composer-fields">
+                  <label class="sr-only" for="post-input">Написать заметку</label>
+                  <textarea id="post-input" placeholder="О чём хочется рассказать?" rows="1" maxlength="3000" aria-describedby="composer-hint"></textarea>
+                  <div class="compose-bottom" id="compose-bottom">
+                    <div class="compose-tools">
+                      <button class="icon-btn" id="audio-start" type="button" title="Записать аудио" aria-label="Записать аудио"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="9" y="2.8" width="6" height="12.5" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.7v3.5M8.6 21.2h6.8"/></svg></button>
+                      <button class="icon-btn" id="video-start" type="button" title="Записать видео" aria-label="Записать видео"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="2.5" y="5" width="13.5" height="14" rx="3"/><path d="m16 10 5.5-3v10L16 14"/></svg></button>
+                      <span class="tool-divider"></span><span class="location-helper">⌖ Координаты прикрепятся автоматически</span>
+                    </div>
+                    <button class="send-btn" id="send-btn" type="submit" title="Опубликовать запись" aria-label="Опубликовать запись"><span>Опубликовать</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button>
+                  </div>
+                  <div class="record-controls hidden" id="record-controls" aria-live="polite">
+                    <span class="recording-pulse"></span><span class="recording-label" id="recording-label">Идёт запись аудио</span><span class="timer" id="recording-timer">00:00</span>
+                    <div class="record-actions"><button type="button" class="record-cancel" id="record-cancel" aria-label="Отменить запись" title="Отменить запись">✕</button><button type="button" class="record-save" id="record-save" aria-label="Сохранить запись" title="Сохранить запись">✓</button></div>
+                  </div>
+                </div>
+              </form>
+              <div class="composer-hint" id="composer-hint"><span>↵ Enter — опубликовать · Shift + Enter — новая строка</span><span id="draft-status">Без сохранения на сервере</span></div>
+            </div>
+          </section>
+
+          <aside class="right-rail" aria-label="Информация о ленте">
+            <div class="rail-card stats-card"><div class="rail-heading"><span>Твоя история</span><span class="sparkle">✧</span></div><div class="total-big" id="stats-total">0</div><p>моментов сохранено</p><div class="stats-line"></div><div class="stats-pair"><span>Текстовые</span><strong id="stats-text">0</strong></div><div class="stats-pair"><span>Аудио</span><strong id="stats-audio">0</strong></div><div class="stats-pair"><span>Видео</span><strong id="stats-video">0</strong></div></div>
+            <div class="rail-card tip-card"><div class="tip-illustration"><div class="pin-outer"><div class="pin-inner">⌖</div></div><span class="orbit-dot a"></span><span class="orbit-dot b"></span></div><div class="tip-kicker">МЕСТО ИМЕЕТ ЗНАЧЕНИЕ</div><h3>Каждый момент — с координатами</h3><p>Разрешите доступ к геолокации или укажите широту и долготу вручную.</p><span class="tip-footnote">⌖ Например: 51.50851, −0.12572</span></div>
+            <div class="rail-footnote">Фото и записи никуда не отправляются.<br/>Для медиа нужен доступ к микрофону или камере.</div>
+          </aside>
+        </div>
+      </main>
+    </div>
+
+    <dialog class="modal" id="coordinates-dialog" aria-labelledby="coordinates-title">
+      <form id="coordinates-form" novalidate>
+        <div class="modal-icon">⌖</div>
+        <button class="modal-x" type="button" id="coordinates-x" aria-label="Закрыть">✕</button>
+        <div class="modal-kicker">ГЕОЛОКАЦИЯ</div>
+        <h2 id="coordinates-title">Где произошёл этот момент?</h2>
+        <p class="modal-desc">Не удалось определить вашу геопозицию автоматически. Введите координаты вручную, чтобы добавить запись в ленту.</p>
+        <label for="coordinates-input" class="input-label">Широта и долгота</label>
+        <input id="coordinates-input" name="coordinates" type="text" placeholder="51.50851, −0.12572" autocomplete="off" required aria-describedby="coordinates-example coordinates-error" />
+        <span id="coordinates-example" class="field-example">Можно со скобками: [51.50851, −0.12572]</span>
+        <div class="field-error" id="coordinates-error" role="alert"></div>
+        <div class="modal-buttons"><button class="button-quiet" id="coordinates-cancel" type="button">Отмена</button><button class="button-primary" type="submit">Добавить запись <span aria-hidden="true">→</span></button></div>
+      </form>
+    </dialog>
+
+    <dialog class="modal message-modal" id="message-dialog" aria-labelledby="message-title">
+      <div class="modal-icon warning-icon">!</div><button class="modal-x" type="button" id="message-x" aria-label="Закрыть">✕</button>
+      <div class="modal-kicker">НУЖНО РАЗРЕШЕНИЕ</div><h2 id="message-title">Нет доступа к устройству</h2><p class="modal-desc" id="message-text"></p>
+      <div class="modal-buttons"><button class="button-primary full-width" type="button" id="message-close">Понятно</button></div>
+    </dialog>
+
+    <div class="preview" id="video-preview" aria-label="Предпросмотр видеозаписи" hidden>
+      <div class="preview-header"><span class="recording-pulse"></span> ВИДЕО · ПРЕДПРОСМОТР <span>БЕЗ ЗВУКА</span></div>
+      <video id="preview-video" autoplay muted playsinline></video>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
